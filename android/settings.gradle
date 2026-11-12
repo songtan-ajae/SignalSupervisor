@@ -6,7 +6,10 @@ dependencyResolutionManagement {
     repositories {
         google(); mavenCentral()
         // Pleos Vehicle SDK (car 빌드만 사용)
-        maven { url = uri('https://nexus-playground.pleos.ai/repository/maven-releases/') }
+        maven {
+            url = uri('https://nexus-playground.pleos.ai/repository/maven-releases/')
+            content { includeGroup 'ai.pleos.playground' } // 이 저장소에서는 Pleos 패키지만 받는다
+        }
     }
 }
 rootProject.name = 'SignalSupervisor'
