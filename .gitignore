@@ -1,0 +1,15 @@
+# Gradle / Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+# 서명 키 (절대 커밋 금지)
+*.jks
+*.keystore
+keystore.properties
+# 현대차 소유 Pleos 아이콘 (로컬에서만 추출해 사용)
+android/app/pleos-icons/
+# 기타
+.idea/
+*.iml
+.DS_Store

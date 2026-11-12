@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "tickSec": 0.1,
+  "note": "keyframes: 시각 t(초)부터 값이 유지된다. laneCross는 그 시각 한 번만 발생하는 이벤트. 모든 시나리오는 마지막에 300초 이상 정차해 자동 정산된다.",
+  "scenarios": [
+    {
+      "id": "S1",
+      "title": "모범 운전",
+      "subtitle": "일반도로 · 차선 변경 + 좌회전",
+      "endSec": 340,
+      "keyframes": [
+        { "t": 0, "set": { "speed": 60, "steer": 0, "signal": "off", "road": "city", "bsmL": false, "bsmR": false, "naviTurnNear": false } },
+        { "t": 5, "set": { "signal": "right" } },
+        { "t": 7, "set": { "steer": 10 } },
+        { "t": 8, "laneCross": "right" },
+        { "t": 8.5, "set": { "steer": -8 } },
+        { "t": 9.5, "set": { "steer": 0 } },
+        { "t": 10, "set": { "signal": "off" } },
+        { "t": 18, "set": { "speed": 30, "naviTurnNear": true } },
+        { "t": 22, "set": { "signal": "left" } },
+        { "t": 26.8, "set": { "steer": -120 } },
+        { "t": 30, "set": { "steer": 0, "naviTurnNear": false } },
+        { "t": 30.2, "set": { "signal": "off" } },
+        { "t": 35, "set": { "speed": 0 } }
+      ],
+      "expected": { "score": 100, "grades": { "ok": 2 }, "clips": 0 }
+    },
+    {
+      "id": "S2",
+      "title": "깜빡 놓침",
+      "subtitle": "일반도로 · 무점등 차선 변경 + 늦은 우회전",
+      "endSec": 340,
+      "keyframes": [
+        { "t": 0, "set": { "speed": 60, "steer": 0, "signal": "off", "road": "city", "bsmL": false, "bsmR": false, "naviTurnNear": false } },
+        { "t": 6, "set": { "steer": -10 } },
+        { "t": 7, "laneCross": "left" },
+        { "t": 7.5, "set": { "steer": 8 } },
+        { "t": 8.5, "set": { "steer": 0 } },
+        { "t": 16, "set": { "speed": 30, "naviTurnNear": true } },
+        { "t": 19.2, "set": { "signal": "right" } },
+        { "t": 21, "set": { "steer": 110 } },
+        { "t": 24, "set": { "steer": 0, "naviTurnNear": false } },
+        { "t": 24.5, "set": { "signal": "off" } },
+        { "t": 30, "set": { "speed": 0 } }
+      ],
+      "expected": { "score": 92, "grades": { "missed": 1, "late": 1 }, "clips": 2 }
+    },
+    {
+      "id": "S3",
+      "title": "BSM 위험",
+      "subtitle": "고속도로 · 늦은 점등 + 후측방 경고",
+      "endSec": 340,
+      "keyframes": [
+        { "t": 0, "set": { "speed": 100, "steer": 0, "signal": "off", "road": "highway", "bsmL": false, "bsmR": false, "naviTurnNear": false } },
+        { "t": 4.2, "set": { "signal": "left" } },
+        { "t": 5.5, "set": { "steer": -6, "bsmL": true } },
+        { "t": 6, "laneCross": "left" },
+        { "t": 6.5, "set": { "steer": 5 } },
+        { "t": 7, "set": { "bsmL": false } },
+        { "t": 7.5, "set": { "steer": 0 } },
+        { "t": 8, "set": { "signal": "off" } },
+        { "t": 15.5, "set": { "signal": "right" } },
+        { "t": 19.5, "set": { "steer": 6, "bsmR": true } },
+        { "t": 20, "laneCross": "right" },
+        { "t": 20.5, "set": { "steer": -5 } },
+        { "t": 21, "set": { "bsmR": false } },
+        { "t": 21.5, "set": { "steer": 0 } },
+        { "t": 22, "set": { "signal": "off" } },
+        { "t": 30, "set": { "speed": 0 } }
+      ],
+      "expected": { "score": 90, "grades": { "danger": 1, "ok": 1 }, "cautions": 1, "clips": 2 }
+    },
+    {
+      "id": "S4",
+      "title": "깜빡이 길이",
+      "subtitle": "일반도로 · 짧음 + 켜둠 + 연속 차선 변경",
+      "endSec": 360,
+      "keyframes": [
+        { "t": 0, "set": { "speed": 60, "steer": 0, "signal": "off", "road": "city", "bsmL": false, "bsmR": false, "naviTurnNear": false } },
+        { "t": 5.9, "set": { "signal": "right" } },
+        { "t": 7.5, "set": { "steer": 10 } },
+        { "t": 8, "laneCross": "right" },
+        { "t": 8.2, "set": { "signal": "off" } },
+        { "t": 8.5, "set": { "steer": -8 } },
+        { "t": 9.5, "set": { "steer": 0 } },
+        { "t": 15, "set": { "signal": "left" } },
+        { "t": 17.5, "set": { "steer": -10 } },
+        { "t": 18, "laneCross": "left" },
+        { "t": 18.5, "set": { "steer": 8 } },
+        { "t": 19.5, "set": { "steer": 0 } },
+        { "t": 36, "set": { "signal": "off" } },
+        { "t": 40, "set": { "signal": "right" } },
+        { "t": 43.5, "set": { "steer": 10 } },
+        { "t": 44, "laneCross": "right" },
+        { "t": 44.5, "set": { "steer": -8 } },
+        { "t": 45.5, "set": { "steer": 0 } },
+        { "t": 49.5, "set": { "steer": 10 } },
+        { "t": 50, "laneCross": "right" },
+        { "t": 50.5, "set": { "steer": -8 } },
+        { "t": 51.5, "set": { "steer": 0 } },
+        { "t": 52, "set": { "signal": "off" } },
+        { "t": 55, "set": { "speed": 0 } }
+      ],
+      "expected": { "score": 97, "grades": { "short": 1, "ok": 3, "linger": 1 }, "clips": 1 }
+    }
+  ],
+  "weekSample": {
+    "note": "D0 = 오늘. 판정 없음 운행은 score null.",
+    "trips": [
+      { "dayOffset": -6, "distanceKm": 12, "road": "city", "grades": { "ok": 3, "late": 1 } },
+      { "dayOffset": -5, "distanceKm": 8, "road": "city", "grades": { "ok": 2, "missed": 1 } },
+      { "dayOffset": -4, "distanceKm": 20, "road": "highway", "grades": { "ok": 4, "danger": 1 } },
+      { "dayOffset": -3, "distanceKm": 5, "road": "city", "grades": {} },
+      { "dayOffset": -2, "distanceKm": 15, "road": "city", "grades": { "ok": 3, "short": 1, "linger": 1 } },
+      { "dayOffset": -1, "distanceKm": 10, "road": "city", "grades": { "ok": 4 } },
+      { "dayOffset": 0, "distanceKm": 30, "road": "city", "grades": { "ok": 5, "late": 1, "missed": 1 } }
+    ],
+    "expected": {
+      "tripScores": [97, 95, 90, null, 97, 100, 92],
+      "weekScore": 94.1,
+      "distribution": { "ok": 21, "late": 2, "missed": 2, "danger": 1, "short": 1, "linger": 1 },
+      "coaching": "danger"
+    }
+  }
+}
