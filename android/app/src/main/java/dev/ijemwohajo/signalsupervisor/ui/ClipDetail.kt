@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -46,6 +45,8 @@ import dev.ijemwohajo.signalsupervisor.core.Frame
 import dev.ijemwohajo.signalsupervisor.core.Signal
 import dev.ijemwohajo.signalsupervisor.core.Verdict
 import dev.ijemwohajo.signalsupervisor.ui.theme.Pal
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
 import kotlinx.coroutines.delay
@@ -71,7 +72,7 @@ fun ClipDetail(v: Verdict, clip: Clip?, modifier: Modifier, onBack: () -> Unit, 
                 ClipStatus.FULL -> "보관함이 가득 차 저장하지 못했어요"
                 else -> "영상 없음 (FIFO로 삭제됨)"
             }
-            Column(Modifier.fillMaxWidth().aspectRatio(32f / 9f).clip(RoundedCornerShape(cq(1f))).background(p.surface), Arrangement.spacedBy(cq(0.5f), Alignment.CenterVertically), Alignment.CenterHorizontally) {
+            Column(Modifier.fillMaxWidth().aspectRatio(32f / 9f).clip(corner(Corner.M)).background(p.surface), Arrangement.spacedBy(cq(0.5f), Alignment.CenterVertically), Alignment.CenterHorizontally) {
                 PIcon(R.drawable.pleos_video, 3f, p.muted)
                 Txt(why, color = p.muted)
             }
@@ -90,7 +91,7 @@ fun ClipDetail(v: Verdict, clip: Clip?, modifier: Modifier, onBack: () -> Unit, 
 
 @Composable
 private fun Metric(label: String, value: String, modifier: Modifier) {
-    Column(modifier.clip(RoundedCornerShape(cq(1f))).background(pal.surface).padding(horizontal = cq(1f), vertical = cq(0.7f))) {
+    Column(modifier.clip(corner(Corner.M)).background(pal.surface).padding(horizontal = cq(1f), vertical = cq(0.7f))) {
         Txt(label, 0.9f, pal.muted)
         Txt(value, 1.4f, weight = FontWeight.Bold)
     }
@@ -119,11 +120,11 @@ private fun ClipPlayer(v: Verdict, clip: Clip, onPin: (String, Boolean) -> Unit)
     }
     val fr = frames[i.coerceIn(0, maxOf(0, n - 1))]
     Row(Modifier.fillMaxWidth(), Arrangement.spacedBy(cq(0.9f))) {
-        Box(Modifier.weight(1f).aspectRatio(16f / 9f).clip(RoundedCornerShape(cq(1f))).background(Color.Black)) {
+        Box(Modifier.weight(1f).aspectRatio(16f / 9f).clip(corner(Corner.M)).background(Color.Black)) {
             Canvas(Modifier.fillMaxSize()) { drawFront(fr, lane[i.coerceIn(0, n - 1)]) }
             Cap("${clip.views.getOrElse(0) { "" }} · 모의 영상")
         }
-        Box(Modifier.weight(1f).aspectRatio(16f / 9f).clip(RoundedCornerShape(cq(1f))).background(Color.Black)) {
+        Box(Modifier.weight(1f).aspectRatio(16f / 9f).clip(corner(Corner.M)).background(Color.Black)) {
             Canvas(Modifier.fillMaxSize()) { drawSide(fr, v.dir) }
             Cap("${clip.views.getOrElse(1) { "" }} · 모의 영상")
         }
@@ -160,7 +161,7 @@ private fun Cap(text: String) =
 @Composable
 private fun Legend(c: Color, text: String) =
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(cq(0.4f))) {
-        Box(Modifier.size(cq(1.1f), cq(0.7f)).clip(RoundedCornerShape(2.dp)).background(c))
+        Box(Modifier.size(cq(1.1f), cq(0.7f)).clip(corner(Corner.XS)).background(c))
         Txt(text, 0.95f, pal.muted)
     }
 
@@ -170,7 +171,7 @@ private fun Timeline(frames: List<Frame>, v: Verdict, cur: Int, p: Pal) {
     val sig = if (v.dir == Dir.LEFT) Signal.LEFT else Signal.RIGHT
     val mw = cq(0.22f)
     val hw = cq(0.18f)
-    Canvas(Modifier.fillMaxWidth().height(cq(3.4f)).clip(RoundedCornerShape(cq(0.7f))).background(p.surface2)) {
+    Canvas(Modifier.fillMaxWidth().height(cq(3.4f)).clip(corner(Corner.M)).background(p.surface2)) {
         val step = size.width / maxOf(1, n - 1)
         fun bands(top: Float, color: Color, pred: (Frame) -> Boolean) {
             var s = -1

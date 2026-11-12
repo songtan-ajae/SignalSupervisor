@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +26,8 @@ import dev.ijemwohajo.signalsupervisor.app.LiveState
 import dev.ijemwohajo.signalsupervisor.core.Dir
 import dev.ijemwohajo.signalsupervisor.core.Road
 import dev.ijemwohajo.signalsupervisor.core.Signal
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
 import kotlin.math.ceil
@@ -46,10 +47,11 @@ fun DriveScreen(live: LiveState) {
                 Stat(stop, "정산까지 정차", Modifier.weight(1f))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(cq(0.6f))) {
-                Source("카메라 차선", live.tripActive || st.speed > 0)
+                Source("카메라 차선", !dev.ijemwohajo.signalsupervisor.BuildConfig.CAR && (live.tripActive || st.speed > 0))
                 Source("내비", st.naviTurnNear)
                 Source("핸들", true)
             }
+            if (dev.ijemwohajo.signalsupervisor.BuildConfig.CAR) Txt("차속·BSM·카메라·내비는 추후 지원 예정이에요. 지금은 모의 값(D단 30 km/h)으로 판정해요.", 0.95f, pal.muted)
         }
         SidePanel(Dir.RIGHT, st.signal == Signal.RIGHT || st.signal == Signal.HAZARD, blink, st.bsmSupported, st.bsmR, Modifier.weight(1f))
     }
@@ -60,7 +62,7 @@ private fun SidePanel(dir: Dir, signalOn: Boolean, blink: Boolean, bsmSupported:
     val p = pal
     val left = dir == Dir.LEFT
     val warn = bsmSupported && bsm
-    val shape = RoundedCornerShape(cq(1.2f))
+    val shape = corner(Corner.L)
     Column(modifier.fillMaxHeight().card(), Arrangement.SpaceBetween, Alignment.CenterHorizontally) {
         PIcon(
             if (left) R.drawable.pleos_arrowleft else R.drawable.pleos_arrowright, 6f,
@@ -79,7 +81,7 @@ private fun SidePanel(dir: Dir, signalOn: Boolean, blink: Boolean, bsmSupported:
             PIcon(if (left) R.drawable.pleos_sidemirrorleft else R.drawable.pleos_sidemirrorright, 3.2f, c)
             val side = if (left) "좌" else "우"
             Txt(
-                if (!bsmSupported) "BSM 미지원" else if (bsm) "${side}측 접근 차량" else "BSM $side · 이상 없음",
+                if (!bsmSupported) (if (dev.ijemwohajo.signalsupervisor.BuildConfig.CAR) "BSM 추후 지원 예정" else "BSM 미지원") else if (bsm) "${side}측 접근 차량" else "BSM $side · 이상 없음",
                 1.05f, c, if (warn) FontWeight.Bold else FontWeight.Normal, align = TextAlign.Center,
             )
         }
@@ -102,7 +104,7 @@ private fun SpeedCard(speed: Int, road: Road, modifier: Modifier) {
 
 @Composable
 private fun Stat(value: String, label: String, modifier: Modifier) {
-    val shape = RoundedCornerShape(cq(1.2f))
+    val shape = corner(Corner.L)
     Column(modifier.shadow(2.dp, shape).background(pal.surface, shape).padding(horizontal = cq(1.3f), vertical = cq(1f))) {
         Txt(value, 2.6f, weight = FontWeight.Bold)
         Txt(label, 1f, pal.muted)

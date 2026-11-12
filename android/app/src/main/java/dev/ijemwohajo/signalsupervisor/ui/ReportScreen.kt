@@ -30,7 +30,7 @@ fun ScoreCard(title: String, ring: @Composable () -> Unit, content: @Composable 
 @Composable
 fun ReportScreen(reports: List<TripReport>, selectedId: String?, onOpen: (reportId: String, verdictId: String) -> Unit) {
     val r = reports.find { it.id == selectedId } ?: reports.firstOrNull()
-    if (r == null) { Empty(R.drawable.pleos_playerlist_line, "아직 정산된 운행이 없어요.\n시뮬레이터에서 시나리오를 실행해 보세요."); return }
+    if (r == null) { Empty(R.drawable.pleos_playerlist_line, if (dev.ijemwohajo.signalsupervisor.BuildConfig.CAR) "아직 정산된 운행이 없어요.\n운행을 마치고 5분 이상 정차하면 정산돼요." else "아직 정산된 운행이 없어요.\n시뮬레이터에서 시나리오를 실행해 보세요."); return }
     val p = pal
     Row(Modifier.fillMaxSize(), Arrangement.spacedBy(cq(1.4f))) {
         ScoreCard("이번 운행 깜빡이 점수", { ScoreRing(r.score?.toDouble(), r.score?.toString() ?: "–", "/ 100") }) {

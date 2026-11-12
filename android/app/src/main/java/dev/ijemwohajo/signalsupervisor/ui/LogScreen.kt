@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import dev.ijemwohajo.signalsupervisor.R
 import dev.ijemwohajo.signalsupervisor.core.Clip
 import dev.ijemwohajo.signalsupervisor.core.TripReport
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
 
@@ -39,7 +40,7 @@ fun LogScreen(
     Row(Modifier.fillMaxSize(), Arrangement.spacedBy(cq(1.2f))) {
         Column(Modifier.width(cq(19f)).fillMaxHeight().verticalScroll(rememberScrollState()), Arrangement.spacedBy(cq(0.7f))) {
             reports.forEach { t ->
-                val shape = RoundedCornerShape(cq(1.2f))
+                val shape = corner(Corner.L)
                 Row(
                     Modifier.fillMaxWidth().clip(shape).background(p.surface).border(1.5.dp, if (t.id == r.id) p.ink else Color.Transparent, shape)
                         .clickable { onSelect(t.id, null) }.padding(horizontal = cq(1.1f), vertical = cq(0.9f)),

@@ -3,7 +3,11 @@ pluginManagement {
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories { google(); mavenCentral() }
+    repositories {
+        google(); mavenCentral()
+        // Pleos Vehicle SDK (car 빌드만 사용)
+        maven { url = uri('https://nexus-playground.pleos.ai/repository/maven-releases/') }
+    }
 }
 rootProject.name = 'SignalSupervisor'
 include ':app'

@@ -20,6 +20,8 @@ import dev.ijemwohajo.signalsupervisor.core.JudgeConfig
 import dev.ijemwohajo.signalsupervisor.core.Scoring
 import dev.ijemwohajo.signalsupervisor.core.TripReport
 import dev.ijemwohajo.signalsupervisor.core.WeekTrip
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
 import java.time.LocalDate
@@ -30,7 +32,7 @@ fun WeekScreen(reports: List<TripReport>, sample: List<WeekTrip>) {
     val keys = remember { (0..6).map { LocalDate.now().minusDays(6L - it).toString() } }
     val trips = reports.filter { it.date in keys }.map { WeekTrip(it.date, it.distanceKm, it.score, it.grades) } + sample.filter { it.date in keys }
     if (trips.isEmpty()) {
-        Empty(R.drawable.pleos_calendar_line, "최근 7일 기록이 없어요.\n시뮬레이터의 \"최근 7일 샘플 기록 채우기\"를 눌러 보세요.")
+        Empty(R.drawable.pleos_calendar_line, if (dev.ijemwohajo.signalsupervisor.BuildConfig.CAR) "최근 7일 기록이 없어요." else "최근 7일 기록이 없어요.\n시뮬레이터의 \"최근 7일 샘플 기록 채우기\"를 눌러 보세요.")
         return
     }
     val sum = Scoring.weekSummary(trips)
@@ -51,7 +53,7 @@ fun WeekScreen(reports: List<TripReport>, sample: List<WeekTrip>) {
                         Column(Modifier.weight(1f).fillMaxHeight(), Arrangement.spacedBy(cq(0.4f)), Alignment.CenterHorizontally) {
                             Txt(sc?.f() ?: "–", 1.1f, weight = FontWeight.Bold)
                             Box(Modifier.weight(1f).fillMaxWidth(), Alignment.BottomCenter) {
-                                val shape = RoundedCornerShape(topStart = cq(0.6f), topEnd = cq(0.6f), bottomStart = cq(0.2f), bottomEnd = cq(0.2f))
+                                val shape = RoundedCornerShape(topStart = cq(Corner.S.u), topEnd = cq(Corner.S.u), bottomStart = cq(Corner.XS.u), bottomEnd = cq(Corner.XS.u))
                                 Box(Modifier.fillMaxWidth(0.62f).fillMaxHeight(frac).background(if (sc == null) p.surface2 else p.ink.copy(alpha = 0.85f), shape))
                             }
                             Txt(dayLabel(k), 0.9f, p.muted)

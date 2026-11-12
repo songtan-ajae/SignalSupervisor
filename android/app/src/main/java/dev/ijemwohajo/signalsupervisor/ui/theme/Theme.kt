@@ -58,6 +58,15 @@ val pal: Pal @Composable get() = LocalPal.current
 /** 목업 cqw 값을 dp 로 */
 @Composable fun cq(x: Float): Dp = (LocalU.current * x).dp
 
+/**
+ * 모서리 R값 토큰(cq 단위). 앱 전체가 이 4단계만 쓴다.
+ * 안쪽 요소 R = 바깥 R − 안쪽 여백(0.3): M(1.0) 그룹 안의 선택 칸은 S(0.7).
+ * XS 작은 표식 · S 선택 칸 · M 버튼·타일·영상 · L 카드·패널·알림 카드
+ */
+enum class Corner(val u: Float) { XS(0.2f), S(0.7f), M(1f), L(1.4f) }
+
+@Composable fun corner(c: Corner) = androidx.compose.foundation.shape.RoundedCornerShape(cq(c.u))
+
 /** 목업 cqw 글자 크기를 sp 로 */
 @Composable fun cs(x: Float): TextUnit = (LocalU.current * x).sp
 

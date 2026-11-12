@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
@@ -38,6 +37,8 @@ import dev.ijemwohajo.signalsupervisor.core.Dir
 import dev.ijemwohajo.signalsupervisor.core.Road
 import dev.ijemwohajo.signalsupervisor.core.Scenario
 import dev.ijemwohajo.signalsupervisor.core.Signal
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.cs
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
@@ -61,7 +62,7 @@ fun SimulatorScreen(graph: AppGraph, scenarios: List<Scenario>, live: LiveState,
                     Row(Modifier.fillMaxWidth(), Arrangement.spacedBy(cq(0.7f))) {
                         row.forEach { sc ->
                             Column(
-                                Modifier.weight(1f).clip(RoundedCornerShape(cq(1f))).background(p.surface2)
+                                Modifier.weight(1f).clip(corner(Corner.M)).background(p.surface2)
                                     .clickable { graph.startScenario(sc.id); onGo("drive") }.padding(cq(0.9f)),
                             ) {
                                 Txt("${sc.id} ${sc.title}", 1.1f, weight = FontWeight.Bold)

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +44,8 @@ import dev.ijemwohajo.signalsupervisor.core.Dir
 import dev.ijemwohajo.signalsupervisor.core.Grade
 import dev.ijemwohajo.signalsupervisor.core.ManeuverType
 import dev.ijemwohajo.signalsupervisor.core.Verdict
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.cs
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
@@ -110,8 +111,8 @@ fun rememberBlink(): Boolean {
 
 @Composable
 fun Modifier.card(): Modifier = this
-    .shadow(2.dp, RoundedCornerShape(cq(1.4f)))
-    .background(pal.surface, RoundedCornerShape(cq(1.4f)))
+    .shadow(2.dp, corner(Corner.L))
+    .background(pal.surface, corner(Corner.L))
     .padding(cq(1.4f))
 
 @Composable
@@ -129,7 +130,7 @@ fun Badge(text: String, tone: String, @DrawableRes icon: Int? = null) {
 @Composable
 fun AppButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, primary: Boolean = false, @DrawableRes icon: Int? = null, label: String? = null) {
     val p = pal
-    val shape = RoundedCornerShape(cq(0.9f))
+    val shape = corner(Corner.M)
     val fg = if (primary) p.btnInk else p.ink
     Row(
         modifier.clip(shape).background(if (primary) p.btnBg else Color.Transparent)
@@ -146,11 +147,11 @@ fun AppButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, 
 @Composable
 fun Segmented(options: List<String>, selected: Int, onSelect: (Int) -> Unit, modifier: Modifier = Modifier, equal: Boolean = false, activeBg: Color = pal.btnBg, activeInk: Color = pal.btnInk) {
     val p = pal
-    Row(modifier.clip(RoundedCornerShape(cq(1f))).background(p.surface2).padding(cq(0.3f)), horizontalArrangement = Arrangement.spacedBy(cq(0.2f))) {
+    Row(modifier.clip(corner(Corner.M)).background(p.surface2).padding(cq(0.3f)), horizontalArrangement = Arrangement.spacedBy(cq(0.2f))) {
         options.forEachIndexed { i, o ->
             val on = i == selected
             Box(
-                (if (equal) Modifier.weight(1f) else Modifier).clip(RoundedCornerShape(cq(0.75f))).background(if (on) activeBg else Color.Transparent)
+                (if (equal) Modifier.weight(1f) else Modifier).clip(corner(Corner.S)).background(if (on) activeBg else Color.Transparent)
                     .clickable { onSelect(i) }.padding(horizontal = cq(1f), vertical = cq(0.5f)),
                 contentAlignment = Alignment.Center,
             ) { Txt(o, 1.1f, if (on) activeInk else p.muted, if (on) FontWeight.Bold else FontWeight.Normal) }
@@ -212,7 +213,7 @@ fun GradeCounts(grades: Map<Grade, Int>, cautions: Int) {
 fun VerdictRow(v: Verdict, onClick: (() -> Unit)?) {
     val p = pal
     val t = tone(v)
-    val shape = RoundedCornerShape(cq(1.2f))
+    val shape = corner(Corner.L)
     Row(
         Modifier.fillMaxWidth().shadow(2.dp, shape).background(p.surface, shape).clip(shape)
             .let { if (onClick != null) it.clickable(onClick = onClick) else it }

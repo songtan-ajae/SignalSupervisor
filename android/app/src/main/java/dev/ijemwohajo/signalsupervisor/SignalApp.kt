@@ -36,6 +36,7 @@ class SignalApp : Application() {
             }
             runCatching { tone?.startTone(ToneGenerator.TONE_PROP_BEEP, 150) }
         }
+        dev.ijemwohajo.signalsupervisor.source.VehicleBridge.start(this, graph) { Log.w("SignalSupervisor", "차량 신호 연결 실패", it) }
         graph.start(CoroutineScope(SupervisorJob() + Dispatchers.Default))
     }
 }

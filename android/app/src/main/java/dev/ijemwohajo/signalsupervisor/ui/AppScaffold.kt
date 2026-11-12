@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,10 +31,13 @@ import dev.ijemwohajo.signalsupervisor.R
 import dev.ijemwohajo.signalsupervisor.app.AppGraph
 import dev.ijemwohajo.signalsupervisor.core.ScenarioFile
 import dev.ijemwohajo.signalsupervisor.ui.theme.SignalTheme
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
 
 private val TABS = listOf("drive" to "주행", "report" to "리포트", "log" to "기록", "week" to "7일", "settings" to "설정", "sim" to "시뮬레이터")
+    .filter { !dev.ijemwohajo.signalsupervisor.BuildConfig.CAR || it.first != "sim" } // 실차용은 시뮬레이터를 숨긴다
 private val LOCKABLE = setOf("report", "log", "week", "settings")
 
 @Composable
@@ -83,14 +85,14 @@ private fun Body(graph: AppGraph, scenarios: ScenarioFile, cardWidth: androidx.c
             ) {
                 AppMark()
                 Txt("시그널 감독관", 1.5f, weight = FontWeight.ExtraBold)
-                Txt("모의 신호", 0.95f, p.muted, modifier = Modifier.clip(CircleShape).background(p.surface).padding(horizontal = cq(0.8f), vertical = cq(0.25f)))
+                Txt(if (dev.ijemwohajo.signalsupervisor.BuildConfig.CAR) "실차 신호 · 일부 모의" else "모의 신호", 0.95f, p.muted, modifier = Modifier.clip(CircleShape).background(p.surface).padding(horizontal = cq(0.8f), vertical = cq(0.25f)))
                 if (saveFailed) Txt("저장 실패 · 다시 시도 중", 0.95f, p.danger, modifier = Modifier.clip(CircleShape).background(p.surface).padding(horizontal = cq(0.8f), vertical = cq(0.25f)))
                 Box(Modifier.weight(1f))
-                Row(Modifier.clip(RoundedCornerShape(cq(1f))).background(p.surface).padding(cq(0.3f)), horizontalArrangement = Arrangement.spacedBy(cq(0.2f))) {
+                Row(Modifier.clip(corner(Corner.M)).background(p.surface).padding(cq(0.3f)), horizontalArrangement = Arrangement.spacedBy(cq(0.2f))) {
                     TABS.forEach { (id, label) ->
                         val on = id == view
                         Box(
-                            Modifier.clip(RoundedCornerShape(cq(0.75f))).background(if (on) p.btnBg else androidx.compose.ui.graphics.Color.Transparent)
+                            Modifier.clip(corner(Corner.S)).background(if (on) p.btnBg else androidx.compose.ui.graphics.Color.Transparent)
                                 .selectable(on, role = Role.Tab) { view = id }.padding(horizontal = cq(0.95f), vertical = cq(0.5f)),
                         ) {
                             val c = if (on) p.btnInk else p.muted

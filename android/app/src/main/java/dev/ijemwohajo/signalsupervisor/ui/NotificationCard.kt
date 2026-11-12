@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.ijemwohajo.signalsupervisor.app.NotificationCard
+import dev.ijemwohajo.signalsupervisor.ui.theme.Corner
+import dev.ijemwohajo.signalsupervisor.ui.theme.corner
 import dev.ijemwohajo.signalsupervisor.ui.theme.cq
 import dev.ijemwohajo.signalsupervisor.ui.theme.pal
 
@@ -29,7 +30,7 @@ import dev.ijemwohajo.signalsupervisor.ui.theme.pal
 @Composable
 fun NotificationCardView(card: NotificationCard, width: Dp) {
     val p = pal
-    val shape = RoundedCornerShape(8.dp)
+    val shape = corner(Corner.L)
     val state = remember(card.id) { MutableTransitionState(false).apply { targetState = true } }
     AnimatedVisibility(state, enter = slideInVertically(tween(150)) { -it / 2 } + fadeIn(tween(100))) {
         Column(
